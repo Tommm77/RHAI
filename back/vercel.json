@@ -1,14 +1,8 @@
 {
-  "version": 2,
   "builds": [
-    { "src": "wsgi.py", "use": "@vercel/python" }
+    { "src": "back/wsgi.py", "use": "@vercel/python", "config": { "maxLambdaSize": "15mb" , "runtime" : "python3.11.5" } }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "/wsgi.py" }
-  ],
-  "build": {
-    "env": {
-      "PIP_DISABLE_PIP_VERSION_CHECK": "1"
-    }
-  }
+    { "src": "/(.*)", "dest": "back/wsgi.py" }
+  ]
 }
