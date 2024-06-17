@@ -1,7 +1,7 @@
 "use client";
 
 import {useState, ChangeEvent} from 'react';
-import {ChevronRightIcon, Upload} from "lucide-react";
+import {ChevronRightIcon, Send, Upload} from "lucide-react";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
@@ -92,6 +92,10 @@ export const HeroSection = () => {
                                         value={selectedFileName}
                                         readOnly
                                     />
+                                    <Button className="w-14 h-14 absolute top-0 right-0 rounded-r-2xl" size="icon" type="submit">
+                                        <Send/>
+                                        <span className="sr-only">Send</span>
+                                    </Button>
                                 </form>
                             </NeonGradientCard>
                         </div>
