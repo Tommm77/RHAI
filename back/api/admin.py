@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import Cv, Profil, Candidature, Motivation
 
-# Register your models here.
+admin.site.register(Cv)
+admin.site.register(Profil)
+admin.site.register(Candidature)
+admin.site.register(Motivation)
