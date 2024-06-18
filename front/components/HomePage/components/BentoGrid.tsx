@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 import { BentoCard, BentoGrid } from "@/components/magicui/bento-grid";
 import Marquee from "@/components/magicui/marquee";
-import { CalendarIcon, FileTextIcon, InputIcon } from "@radix-ui/react-icons";
-import {Brain, Folder, LogIn, Share2Icon} from "lucide-react";
+import { FileTextIcon } from "@radix-ui/react-icons";
+import {Brain, Folder, LogIn} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import AnimatedGradientText from "@/components/magicui/animated-gradient-text";
 
@@ -45,7 +45,7 @@ const features: Feature[] = [
     {
         Icon: FileTextIcon,
         name: "Envoyer Votre CV",
-        description: "Téléchargez votre CV pour commencer l'analyse par notre IA.",
+        description: 'Téléchargez votre CV pour commencer l\'analyse par notre IA.',
         href: "/upload",
         cta: "Télécharger",
         className: "col-span-3 lg:col-span-1",
