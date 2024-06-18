@@ -19,7 +19,7 @@ export function LoginModal() {
         <Button color="primary" className="rounded-2xl">
           <LogIn size={16} />
           <p className="ml-2">Connexion</p>
-          </Button>
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
