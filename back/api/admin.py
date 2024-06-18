@@ -5,3 +5,4 @@ admin.site.register(Cv)
 admin.site.register(Profil)
 admin.site.register(Candidature)
 admin.site.register(Motivation)
+
