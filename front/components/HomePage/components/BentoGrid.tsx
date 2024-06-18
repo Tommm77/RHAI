@@ -142,7 +142,7 @@ const features: Feature[] = [
 
 export function BentoDemo() {
     return (
-        <div className="max-w-5xl mx-auto mt-40 w-full h-full">
+        <div className="max-w-5xl mx-auto mt-40 w-full h-full mb-10">
             <AnimatedGradientText>
                 <h1 className="animate-gradient bg-gradient-to-r from-[#6157ff] via-[#EE49FD] to-[#6157ff] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent text-6xl -mt-5 sm:-mt-10 pb-2">
                     Fonctionnalités
