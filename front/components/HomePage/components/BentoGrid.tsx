@@ -87,7 +87,7 @@ const features: Feature[] = [
         name: "Inscrivez-vous",
         description: "Inscrivez-vous pour débloquer des fonctionnalités exclusives.",
         href: "/signup",
-        cta: "S'inscrire",
+        cta: "inscription",
         className: "col-span-3 lg:col-span-2",
         background: (
             <div className="absolute -top-5 left-0 right-0 flex flex-col items-center justify-center w-full h-full rounded-lg p-4">
