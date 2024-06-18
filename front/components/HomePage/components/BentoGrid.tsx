@@ -45,7 +45,7 @@ const features: Feature[] = [
     {
         Icon: FileTextIcon,
         name: "Envoyer Votre CV",
-        description: 'Téléchargez votre CV pour commencer l\'analyse par notre IA.',
+        description: "Téléchargez votre CV pour commencer a être analysé par notre IA.",
         href: "/upload",
         cta: "Télécharger",
         className: "col-span-3 lg:col-span-1",
