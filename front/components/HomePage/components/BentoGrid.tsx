@@ -97,7 +97,7 @@ const features: Feature[] = [
                     <li>Accès à des modèles de CV premium</li>
                     <li>Conseils personnalisés de carrière</li>
                 </ul>
-                <p className="text-xs mt-4 text-gray-500 dark:text-gray-400">Termes et conditions s'appliquent.</p>
+                <p className="text-xs mt-4 text-gray-500 dark:text-gray-400">Termes et conditions</p>
             </div>
         ),
     },
