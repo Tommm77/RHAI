@@ -4,3 +4,4 @@ pip~=24.0
 setuptools~=70.0.0
 django-cors-headers~=4.0.0
 drf-yasg~=1.21.0
+django-serializer~=1.2.1
