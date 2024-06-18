@@ -26,7 +26,7 @@ export const HeroSection = () => {
             <div className="container px-4 md:px-6 z-10 relative">
                 <div className="flex flex-col items-center space-y-4 text-center">
                     <div className="z-10 flex items-center justify-center mb-5">
-                        <AnimatedGradientButton className="cursor-pointer" backgroundColor="#1A1924">
+                        <AnimatedGradientButton className="cursor-pointer opacity-70" backgroundColor="#1A1924">
                             🚀 <hr className="mx-2 h-4 w-[1px] shrink-0"/>{" "}
                             <span
                                 className={cn(
