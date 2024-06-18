@@ -1,19 +1,8 @@
 {
   "builds": [
-    {
-      "src": "back/wsgi.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "15mb",
-        "runtime": "python3.11.5",
-        "installCommand": "pip install --upgrade pip && pip install --force-reinstall -U setuptools && pip install -r requirements.txt"
-      }
-    }
+    { "src": "back/wsgi.py", "use": "@vercel/python", "config": { "maxLambdaSize": "15mb" , "runtime" : "python3.11.5" } }
   ],
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "back/wsgi.py"
-    }
+    { "src": "/(.*)", "dest": "back/wsgi.py" }
   ]
 }
