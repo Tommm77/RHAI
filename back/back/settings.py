@@ -76,7 +76,7 @@ WSGI_APPLICATION = "back.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        'NAME': 'playinga',
+        'NAME': 'playinga_airh',
         'USER': 'playinga',  # Remplacez par votre nom d'utilisateur
         'PASSWORD': 'mv9TmSzyr@qX9u7',  # Remplacez par votre mot de passe
         'HOST': 'postgresql-playinga.alwaysdata.net',
