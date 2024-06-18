@@ -1,6 +1,6 @@
-import {Button} from "@/components/ui/button";
-import {LogIn} from "lucide-react";
 import Image from "next/image";
+import { LoginModal } from "./LoginModal";
+
 
 export const Navbar = () => {
     return (
@@ -9,11 +9,9 @@ export const Navbar = () => {
                 <div className="flex space-x-5 items-center ml-5">
                     <Image src="/assets/logo2.png" width="60" height="60" alt="logo"/>
                 </div>
+
                 <div className="flex gap-4 mr-5">
-                    <Button className="rounded flex space-x-3">
-                        <LogIn size={16} />
-                        <p>Sign In</p>
-                    </Button>
+                    <LoginModal />
                 </div>
             </div>
         </div>
