@@ -38,7 +38,15 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "api",
+    "rest_framework",
+    "corsheaders",
+    "drf_yasg",
+    "django_serializer",
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
