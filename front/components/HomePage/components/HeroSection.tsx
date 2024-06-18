@@ -7,7 +7,6 @@ import {Button} from "@/components/ui/button";
 import Link from "next/link";
 import AnimatedGradientButton from "@/components/magicui/animated-gradient-button";
 import AnimatedGradientText from "@/components/magicui/animated-gradient-text";
-import {NeonGradientCard} from "@/components/magicui/neon-gradient-card";
 import {cn} from "@/lib/utils";
 
 export const HeroSection = () => {
@@ -72,8 +71,8 @@ export const HeroSection = () => {
                     </div>
                     <div className="w-full max-w-5xl space-y-2 pt-2">
                         <div className="h-fit flex items-center justify-center">
-                            <NeonGradientCard className="w-2/3 h-[3.5rem]">
-                                <form className="flex items-center -mt-1">
+                            <div className="relative border-2 border-primary rounded-2xl w-2/3 h-[3.5rem]">
+                                <form className="flex items-center -mt-0.5">
                                     <Button className="w-48 h-14 -ml-1 rounded-l-2xl" size="icon" type="button">
                                         Choisir Fichier
                                         <Upload className="ml-5 w-5 h-5"/>
@@ -92,12 +91,12 @@ export const HeroSection = () => {
                                         value={selectedFileName}
                                         readOnly
                                     />
-                                    <Button className="w-14 h-14 absolute top-0 right-0 rounded-r-2xl" size="icon" type="submit">
+                                    <Button className="w-14 h-14 absolute -top-0.5 right-0 rounded-r-2xl" size="icon" type="submit">
                                         <Send/>
                                         <span className="sr-only">Send</span>
                                     </Button>
                                 </form>
-                            </NeonGradientCard>
+                            </div>
                         </div>
                         <p className="text-xs text-accent-foreground">
                             Inscrivez-vous pour débloquer des fonctionnalités exclusives.
