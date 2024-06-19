@@ -1,45 +1,35 @@
 "use client";
 import Image from "next/image";
 import { LoginModal } from "./LoginModal";
-import {Button} from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 
 export const Navbar = () => {
-    const router = useRouter();
-
-    const goToRH = () => {
-        //router.push("/AnalizingPage/");
-    };
-
-      const goToProfil = () => {
-        //router.push("/about");
-    };
-
     return (
         <div className="h-16 w-full border-b">
-            <div className="flex justify-between items-center h-full px-4">
-                <div className="flex space-x-5 items-center ml-5">
+            <div className="flex items-center justify-between h-full px-4">
+                <Link href="/" className="flex space-x-5 items-center ml-5">
                     <Image src="/assets/logo2.png" width="60" height="60" alt="logo"/>
-                </div>
+                </Link>
+                <div className="flex">
 
                 <div className="flex space-x-5 items-center ml-5">
-                    <Button onClick={goToRH} className="rounded-2xl">
+                    <Link href="/RH" className="rounded-2xl">
                       <p>Espace RH</p>
-                    </Button>
+                    </Link>
                 </div>
 
                 <div className="flex space-x-5 items-center ml-5">
-                    <Button className="rounded-2xl">
+                    <Link href="/Profile" className="rounded-2xl">
                       <p>Profil</p>
-                    </Button>
+                    </Link>
                 </div>
 
-                <div className="flex gap-4 mr-5">
+                <div className="flex gap-4 mr-5 ml-5">
                     <LoginModal/>
+                </div>
                 </div>
             </div>
         </div>
     );
-
 }
