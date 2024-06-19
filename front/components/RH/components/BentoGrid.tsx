@@ -43,15 +43,15 @@ const features: Feature[] = [
     },
     {
         Icon: Briefcase,
-        name: "Offres d'Emploi",
-        description: "Consultez les offres d'emploi disponibles sur notre plateforme.",
+        name: "Offres Emplois",
+        description: "Consultez les offres emplois disponibles sur notre plateforme.",
         href: "/jobs",
         cta: "Voir Offres",
         className: "col-span-3 lg:col-span-2",
         background: (
             <div className="absolute -top-5 left-0 right-0 flex flex-col items-center justify-center w-full h-full rounded-lg p-4">
                 <p className="text-4xl font-bold text-gray-700 dark:text-gray-200">300+</p>
-                <p className="text-sm mt-2 dark:text-gray-200">Offres d'emploi disponibles</p>
+                <p className="text-sm mt-2 dark:text-gray-200">Offres emplois disponibles</p>
             </div>
         ),
     },
