@@ -1,10 +1,9 @@
-import {Navbar} from "@/components/HomePage/components/Navbar";
+import {RHHome} from "@/components/RH/RHHome";
 
 export default function RHPage (){
     return (
         <div className="h-full w-full">
-            <Navbar />
-            <h1>Hello RH</h1>
+            <RHHome />
         </div>
     );
 }
