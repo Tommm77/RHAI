@@ -1,23 +1,77 @@
 "use client";
 
-import {useState, ChangeEvent} from 'react';
-import {ChevronRightIcon, Send, Upload} from "lucide-react";
-import {Input} from "@/components/ui/input";
-import {Button} from "@/components/ui/button";
+import { useState, ChangeEvent, FormEvent } from 'react';
+import { ChevronRightIcon } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import AnimatedGradientButton from "@/components/magicui/animated-gradient-button";
 import AnimatedGradientText from "@/components/magicui/animated-gradient-text";
-import {cn} from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog";
 
 export const HeroSection = () => {
-    const [selectedFileName, setSelectedFileName] = useState("Pas de fichier choisi");
+    const [selectedCV, setSelectedCV] = useState<File | null>(null);
+    const [selectedLetter, setSelectedLetter] = useState<File | null>(null);
+    const [email, setEmail] = useState("");
+    const [open, setOpen] = useState(false);
 
-    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = (event: ChangeEvent<HTMLInputElement>, setFile: (file: File | null) => void) => {
         const file = event.target.files?.[0];
-        if (file) {
-            setSelectedFileName(file.name);
-        } else {
-            setSelectedFileName("Pas de fichier choisi");
+        setFile(file || null);
+    };
+
+    const uploadFile = async (file: File, url: string) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erreur lors de l'envoi du fichier à ${url}`);
+        }
+
+        const data = await response.json();
+        return data.id;  // Assuming the API returns an object with the ID of the uploaded file
+    };
+
+    const handleSubmit = async (event: FormEvent) => {
+        event.preventDefault();
+
+        try {
+            let cvId: number | null = null;
+            let letterId: number | null = null;
+
+            if (selectedCV) {
+                cvId = await uploadFile(selectedCV, 'https://rhai-api.vercel.app/cvs/');
+            }
+
+            if (selectedLetter) {
+                letterId = await uploadFile(selectedLetter, 'https://rhai-api.vercel.app/motivations/');
+            }
+
+            const candidatureResponse = await fetch('https://rhai-api.vercel.app/candidatures/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email,
+                    cv: cvId,
+                    lettre: letterId,
+                }),
+            });
+
+            if (candidatureResponse.ok) {
+                alert('Candidature envoyée avec succès !');
+            } else {
+                alert("Erreur lors de l'envoi de la candidature.");
+            }
+        } catch (error: any) {
+            console.error(error);
+            alert(error.message);
         }
     };
 
@@ -71,32 +125,56 @@ export const HeroSection = () => {
                     </div>
                     <div className="w-full max-w-5xl space-y-2 pt-2">
                         <div className="h-fit flex items-center justify-center">
-                            <div className="relative border-2 border-primary rounded-2xl w-2/3 h-[3.5rem]">
-                                <form className="flex items-center -mt-0.5">
-                                    <Button className="w-48 h-14 -ml-1 rounded-l-2xl" size="icon" type="button">
-                                        Choisir Fichier
-                                        <Upload className="ml-5 w-5 h-5"/>
-                                        <span className="sr-only">Send</span>
-                                        <input
-                                            className="absolute inset-0 opacity-0 cursor-pointer"
-                                            type="file"
-                                            name="file"
-                                            onChange={handleFileChange}
-                                        />
-                                    </Button>
-                                    <Input
-                                        className="pl-4 max-w-5xl flex-1 rounded-r-2xl h-12 bg-card text-accent-foreground"
-                                        placeholder="Pas de fichier choisi"
-                                        type="text"
-                                        value={selectedFileName}
-                                        readOnly
-                                    />
-                                    <Button className="w-14 h-14 absolute -top-0.5 right-0 rounded-r-2xl" size="icon" type="submit">
-                                        <Send/>
-                                        <span className="sr-only">Send</span>
-                                    </Button>
-                                </form>
-                            </div>
+                            <Dialog open={open} onOpenChange={setOpen}>
+                                <DialogTrigger asChild>
+                                    <Button variant="outline" className="w-2/3 h-[3.5rem]">Envoyer sa candidature</Button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-lg">
+                                    <DialogTitle>Envoyer sa candidature</DialogTitle>
+                                    <form onSubmit={handleSubmit} className="space-y-4">
+                                        <div>
+                                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                                                Adresse email
+                                            </label>
+                                            <Input
+                                                id="email"
+                                                type="email"
+                                                required
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)}
+                                                className="mt-1 block w-full"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label htmlFor="cv" className="block text-sm font-medium text-gray-700">
+                                                CV (optionnel)
+                                            </label>
+                                            <Input
+                                                id="cv"
+                                                type="file"
+                                                accept=".pdf,.doc,.docx"
+                                                onChange={(e) => handleFileChange(e, setSelectedCV)}
+                                                className="mt-1 block w-full"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label htmlFor="letter" className="block text-sm font-medium text-gray-700">
+                                                Lettre de motivation (optionnel)
+                                            </label>
+                                            <Input
+                                                id="letter"
+                                                type="file"
+                                                accept=".pdf,.doc,.docx"
+                                                onChange={(e) => handleFileChange(e, setSelectedLetter)}
+                                                className="mt-1 block w-full"
+                                            />
+                                        </div>
+                                        <Button type="submit" className="w-full">
+                                            Envoyer
+                                        </Button>
+                                    </form>
+                                </DialogContent>
+                            </Dialog>
                         </div>
                         <p className="text-xs text-accent-foreground">
                             Inscrivez-vous pour débloquer des fonctionnalités exclusives.
