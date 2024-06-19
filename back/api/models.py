@@ -4,7 +4,7 @@ from django.db import models
 class Cv(models.Model):
     id_cv = models.AutoField(primary_key=True)
     cv = models.BinaryField()
-    score = models.DecimalField(max_digits=5, decimal_places=2)
+    score = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
 
     class Meta:
         db_table = 'CV'
@@ -38,7 +38,7 @@ class Candidature(models.Model):
 class Motivation(models.Model):
     id_m = models.AutoField(primary_key=True)
     lettre = models.BinaryField()
-    score = models.DecimalField(max_digits=5, decimal_places=2)
+    score = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
 
     class Meta:
         db_table = 'motivation'
