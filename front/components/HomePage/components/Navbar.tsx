@@ -14,8 +14,8 @@ export const Navbar = () => {
 
     const handleLogout = () => {
         removeCookie(null, "token");
-        <Link href="/"/>
-        window.location.reload();
+        window.location.href = "/";
+        //window.location.reload();
     };
 
     return (
