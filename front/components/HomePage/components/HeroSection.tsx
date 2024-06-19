@@ -45,14 +45,14 @@ export const HeroSection = () => {
             let letterId: number | null = null;
 
             if (selectedCV) {
-                cvId = await uploadFile(selectedCV, 'https://rhai-api.vercel.app/cvs/');
+                cvId = await uploadFile(selectedCV, 'https://rhai-api.vercel.app/api/cvs/');
             }
 
             if (selectedLetter) {
-                letterId = await uploadFile(selectedLetter, 'https://rhai-api.vercel.app/motivations/');
+                letterId = await uploadFile(selectedLetter, 'https://rhai-api.vercel.app/api/motivations/');
             }
 
-            const candidatureResponse = await fetch('https://rhai-api.vercel.app/candidatures/', {
+            const candidatureResponse = await fetch('https://rhai-api.vercel.app/api/candidatures/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
