@@ -12,7 +12,7 @@ export const Navbar = () => {
     const isAuthenticated = useAuth();
 
     const handleLogout = () => {
-        removeCookie(null, "token"); // Utilisation de null pour 'res' car nous n'avons pas besoin de 'res' pour supprimer un cookie client-side
+        removeCookie(null, "token");
         window.location.reload();
     };
 

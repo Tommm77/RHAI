@@ -40,7 +40,7 @@ export function LoginModal() {
       if (response.ok) {
         const data = await response.json();
         document.cookie = cookie.serialize("token", data.token, {
-          httpOnly: false, // Utilisez `false` ici, car le cookie est défini côté client
+          httpOnly: false,
           secure: process.env.NODE_ENV === "production",
           sameSite: "lax",
           path: "/",
@@ -69,7 +69,7 @@ export function LoginModal() {
         <DialogHeader>
           <DialogTitle>Connexion</DialogTitle>
           <DialogDescription>
-            Veillez vous connecter pour accéder à l'espace RH
+            Veillez vous connecter pour accéder à l espace RH
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleLogin}>
