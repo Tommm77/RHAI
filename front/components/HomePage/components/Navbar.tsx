@@ -34,7 +34,7 @@ export const Navbar = () => {
                                 </Link>
                             </div>
                             <div className="flex space-x-2 items-center ml-5">
-                                <Avatar className="w-8 h-8">
+                                <Avatar className="w-10 h-10">
                                     <AvatarImage src="https://github.com/shadcn.png" />
                                     <AvatarFallback>CN</AvatarFallback>
                                 </Avatar>
