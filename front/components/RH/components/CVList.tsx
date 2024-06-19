@@ -1,41 +1,127 @@
 "use client";
 import AnimatedGradientText from "@/components/magicui/animated-gradient-text";
-import {Input} from "@/components/ui/input";
-import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
-import {Button} from "@/components/ui/button";
-import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from "@/components/ui/command";
-import {CheckIcon} from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { CheckIcon } from "lucide-react";
 import React from "react";
-import {CaretSortIcon} from "@radix-ui/react-icons";
-import {cn} from "@/lib/utils";
+import { CaretSortIcon } from "@radix-ui/react-icons";
+import { cn } from "@/lib/utils";
+import {
+    ColumnDef,
+    SortingState,
+    useReactTable,
+    getCoreRowModel,
+    getPaginationRowModel,
+    getSortedRowModel,
+    getFilteredRowModel,
+    ColumnFiltersState, flexRender,
+} from "@tanstack/react-table";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+const data = [
+    { email: "john.doe@example.com", job: "Developer", cvScore: "90%", letterScore: "85%", total: 175 },
+    { email: "jane.smith@example.com", job: "Designer", cvScore: "88%", letterScore: "92%", total: 180 },
+    { email: "alice.wonderland@example.com", job: "Product Manager", cvScore: "75%", letterScore: "80%", total: 155 },
+    { email: "bob.builder@example.com", job: "Data Scientist", cvScore: "95%", letterScore: "90%", total: 185 },
+    { email: "charlie.chaplin@example.com", job: "DevOps Engineer", cvScore: "85%", letterScore: "87%", total: 172 },
+];
+
+export const columns: ColumnDef<typeof data[0]>[] = [
+    {
+        accessorKey: "email",
+        header: ({ column }) => (
+            <Button
+                variant="ghost"
+                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            >
+                Email
+                <CaretSortIcon className="ml-2 h-4 w-4" />
+            </Button>
+        ),
+        cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+    },
+    {
+        accessorKey: "job",
+        header: "Job",
+        cell: ({ row }) => <div className="capitalize">{row.getValue("job")}</div>,
+    },
+    {
+        accessorKey: "cvScore",
+        header: ({ column }) => (
+            <Button
+                variant="ghost"
+                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                className="text-right"
+            >
+                CV Score
+                <CaretSortIcon className="ml-2 h-4 w-4" />
+            </Button>
+        ),
+        cell: ({ row }) => <div className="text-center font-medium">{row.getValue("cvScore")}</div>,
+    },
+    {
+        accessorKey: "letterScore",
+        header: ({ column }) => (
+            <Button
+                variant="ghost"
+                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                className="text-right"
+            >
+                Lettre de Motivation Score
+                <CaretSortIcon className="ml-2 h-4 w-4" />
+            </Button>
+        ),
+        cell: ({ row }) => <div className="text-center font-medium">{row.getValue("letterScore")}</div>,
+    },
+    {
+        accessorKey: "total",
+        header: ({ column }) => (
+            <Button
+                variant="ghost"
+                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                className="text-right"
+            >
+                Total
+                <CaretSortIcon className="ml-2 h-4 w-4" />
+            </Button>
+        ),
+        cell: ({ row }) => <div className="text-center font-medium">{row.getValue("total")}</div>,
+    }
+];
 
 export const CVList = () => {
+    const [open, setOpen] = React.useState(false);
+    const [value, setValue] = React.useState("");
+    const [sorting, setSorting] = React.useState<SortingState>([]);
+    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+    const [rowSelection, setRowSelection] = React.useState({});
 
-    const frameworks = [
-        {
-            value: "next.js",
-            label: "Next.js",
-        },
-        {
-            value: "sveltekit",
-            label: "SvelteKit",
-        },
-        {
-            value: "nuxt.js",
-            label: "Nuxt.js",
-        },
-        {
-            value: "remix",
-            label: "Remix",
-        },
-        {
-            value: "astro",
-            label: "Astro",
-        },
-    ]
+    const filteredJobs = Array.from(new Set(data.map(item => item.job)));
 
-        const [open, setOpen] = React.useState(false)
-        const [value, setValue] = React.useState("")
+    const table = useReactTable({
+        data,
+        columns,
+        state: {
+            sorting,
+            columnFilters,
+            rowSelection,
+        },
+        onSortingChange: setSorting,
+        onColumnFiltersChange: setColumnFilters,
+        onRowSelectionChange: setRowSelection,
+        getCoreRowModel: getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+    });
 
     return (
         <div className="h-full w-full max-w-5xl mt-32 mx-auto">
@@ -54,9 +140,7 @@ export const CVList = () => {
                                 aria-expanded={open}
                                 className="w-[200px] justify-between"
                             >
-                                {value
-                                    ? frameworks.find((framework) => framework.value === value)?.label
-                                    : "Choisi un job..."}
+                                {value || "Choisi un job..."}
                                 <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                             </Button>
                         </PopoverTrigger>
@@ -64,22 +148,23 @@ export const CVList = () => {
                             <Command>
                                 <CommandInput placeholder="Rechercher Job..." className="h-9" />
                                 <CommandList>
-                                    <CommandEmpty>No framework found.</CommandEmpty>
+                                    <CommandEmpty>No job found.</CommandEmpty>
                                     <CommandGroup>
-                                        {frameworks.map((framework) => (
+                                        {filteredJobs.map((job) => (
                                             <CommandItem
-                                                key={framework.value}
-                                                value={framework.value}
+                                                key={job}
+                                                value={job}
                                                 onSelect={(currentValue) => {
-                                                    setValue(currentValue === value ? "" : currentValue)
-                                                    setOpen(false)
+                                                    setValue(currentValue === value ? "" : currentValue);
+                                                    setColumnFilters([{ id: "job", value: currentValue }]);
+                                                    setOpen(false);
                                                 }}
                                             >
-                                                {framework.label}
+                                                {job}
                                                 <CheckIcon
                                                     className={cn(
                                                         "ml-auto h-4 w-4",
-                                                        value === framework.value ? "opacity-100" : "opacity-0"
+                                                        value === job ? "opacity-100" : "opacity-0"
                                                     )}
                                                 />
                                             </CommandItem>
@@ -90,8 +175,53 @@ export const CVList = () => {
                         </PopoverContent>
                     </Popover>
                     <div>
-                        <Input className="rounded" placeholder="🔎   Rechercher" />
+                        <Input
+                            className="rounded"
+                            placeholder="🔎   Rechercher"
+                            value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+                            onChange={(event) =>
+                                table.getColumn("email")?.setFilterValue(event.target.value)
+                            }
+                        />
                     </div>
+                </div>
+            </div>
+            <div className="mt-8">
+                <div className="rounded-md border overflow-auto max-h-96">
+                    <Table>
+                        <TableHeader>
+                            {table.getHeaderGroups().map((headerGroup) => (
+                                <TableRow key={headerGroup.id}>
+                                    {headerGroup.headers.map((header) => (
+                                        <TableHead key={header.id}>
+                                            {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                                        </TableHead>
+                                    ))}
+                                </TableRow>
+                            ))}
+                        </TableHeader>
+                        <TableBody>
+                            {table.getRowModel().rows?.length ? (
+                                table.getRowModel().rows.map((row) => (
+                                    <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                                        {row.getVisibleCells().map((cell) => (
+                                            <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                                        ))}
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={columns.length} className="h-24 text-center">No results.</TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
+            </div>
+            <div className="flex items-center justify-end space-x-2 py-4">
+                <div className="space-x-2">
+                    <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>Previous</Button>
+                    <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>Next</Button>
                 </div>
             </div>
         </div>
