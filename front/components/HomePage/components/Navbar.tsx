@@ -1,10 +1,21 @@
+"use client";
 import Image from "next/image";
 import { LoginModal } from "./LoginModal";
-import {LogIn} from "lucide-react";
 import {Button} from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 
 export const Navbar = () => {
+    const router = useRouter();
+
+    const goToRH = () => {
+        //router.push("/AnalizingPage/");
+    };
+
+      const goToProfil = () => {
+        //router.push("/about");
+    };
+
     return (
         <div className="h-16 w-full border-b">
             <div className="flex justify-between items-center h-full px-4">
@@ -13,7 +24,7 @@ export const Navbar = () => {
                 </div>
 
                 <div className="flex space-x-5 items-center ml-5">
-                    <Button className="rounded-2xl">
+                    <Button onClick={goToRH} className="rounded-2xl">
                       <p>Espace RH</p>
                     </Button>
                 </div>

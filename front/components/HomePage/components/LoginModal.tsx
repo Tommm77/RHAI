@@ -25,7 +25,7 @@ export function LoginModal() {
         <DialogHeader>
           <DialogTitle>Connexion</DialogTitle>
           <DialogDescription>
-            Veillez vous connecter pour acceder a l'espace RH
+            Veillez vous connecter pour acceder a espace RH
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
