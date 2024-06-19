@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, Mail } from "lucide-react";
 import React from "react";
 import { CaretSortIcon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
@@ -26,6 +26,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+
 const data = [
     { email: "john.doe@example.com", job: "Developer", cvScore: "90%", letterScore: "85%", total: 175 },
     { email: "jane.smith@example.com", job: "Designer", cvScore: "88%", letterScore: "92%", total: 180 },
@@ -34,7 +35,7 @@ const data = [
     { email: "charlie.chaplin@example.com", job: "DevOps Engineer", cvScore: "85%", letterScore: "87%", total: 172 },
 ];
 
-export const columns: ColumnDef<typeof data[0]>[] = [
+const columns: ColumnDef<typeof data[0]>[] = [
     {
         accessorKey: "email",
         header: ({ column }) => (
@@ -46,7 +47,18 @@ export const columns: ColumnDef<typeof data[0]>[] = [
                 <CaretSortIcon className="ml-2 h-4 w-4" />
             </Button>
         ),
-        cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+        cell: ({ row }) => (
+            <div className="flex items-center space-x-2">
+                <span className="lowercase">{row.getValue("email")}</span>
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => sendEmail(row.getValue("email"))}
+                >
+                    <Mail className="h-4 w-4" />
+                </Button>
+            </div>
+        ),
     },
     {
         accessorKey: "job",
@@ -96,6 +108,26 @@ export const columns: ColumnDef<typeof data[0]>[] = [
         cell: ({ row }) => <div className="text-center font-medium">{row.getValue("total")}</div>,
     }
 ];
+
+const sendEmail = async (email: any) => {
+    const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            to: email,
+            subject: "Votre candidature a été sélectionnée",
+            html: "<p>Votre candidature a été sélectionnée. Nous vous recontacterons dans les plus brefs délais.</p>",
+        }),
+    });
+
+    if (response.ok) {
+        alert("Email envoyé avec succès !");
+    } else {
+        alert("Erreur lors de l'envoi de l'email.");
+    }
+};
 
 export const CVList = () => {
     const [open, setOpen] = React.useState(false);
