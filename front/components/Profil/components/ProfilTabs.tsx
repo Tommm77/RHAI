@@ -15,34 +15,37 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
+import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar"
 
 export function Profiltabs() {
   return (
     <Tabs defaultValue="account" className="w-[400px]">
-      <TabsList className="grid w-full grid-cols-2">
-        <TabsTrigger value="account">Account</TabsTrigger>
-        <TabsTrigger value="password">Password</TabsTrigger>
+      <TabsList className="grid w-full grid-cols-2 rounded-2xl">
+        <TabsTrigger value="account" className="rounded-2xl">Profil</TabsTrigger>
+        <TabsTrigger value="password" className="rounded-2xl">Password</TabsTrigger>
       </TabsList>
       <TabsContent value="account">
         <Card>
-          <CardHeader>
-            <CardTitle>Account</CardTitle>
-            <CardDescription>
-              Make changes to your account here. Click save when you re done.
-            </CardDescription>
-          </CardHeader>
           <CardContent className="space-y-2">
-            <div className="space-y-1">
-              <Label htmlFor="name">Name</Label>
+            <div className="space-y-1 mt-4">
+              <Label htmlFor="name">Nom</Label>
               <Input id="name" defaultValue="Pedro Duarte" />
             </div>
             <div className="space-y-1">
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="username">prénom</Label>
+              <Input id="username" defaultValue="@peduarte" />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="username">Email</Label>
+              <Input id="username" defaultValue="@peduarte" />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="username">numéro de téléphone</Label>
               <Input id="username" defaultValue="@peduarte" />
             </div>
           </CardContent>
           <CardFooter>
-            <Button>Save changes</Button>
+            <Button className="rounded-2xl">Save changes</Button>
           </CardFooter>
         </Card>
       </TabsContent>
@@ -65,7 +68,7 @@ export function Profiltabs() {
             </div>
           </CardContent>
           <CardFooter>
-            <Button>Save password</Button>
+            <Button className="rounded-2xl">Save password</Button>
           </CardFooter>
         </Card>
       </TabsContent>
