@@ -15,7 +15,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar"
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 
 export function Profiltabs() {
   return (
@@ -27,6 +27,10 @@ export function Profiltabs() {
       <TabsContent value="account">
         <Card>
           <CardContent className="space-y-2">
+            <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
             <div className="space-y-1 mt-4">
               <Label htmlFor="name">Nom</Label>
               <Input id="name" defaultValue="Pedro Duarte" />
