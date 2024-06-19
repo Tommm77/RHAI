@@ -1,10 +1,9 @@
-import {Navbar} from "@/components/HomePage/components/Navbar";
+import { ProfilHome } from "@/components/Profil/PorfilHome";
 
 export default function ProfilePage ()  {
     return (
         <div className="h-full w-full">
-            <Navbar />
-            <h1>Hello Profile</h1>
+            <ProfilHome />
         </div>
     );
 }
