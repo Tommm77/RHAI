@@ -50,13 +50,6 @@ const columns: ColumnDef<typeof data[0]>[] = [
         cell: ({ row }) => (
             <div className="flex items-center space-x-2">
                 <span className="lowercase">{row.getValue("email")}</span>
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => sendEmail(row.getValue("email"))}
-                >
-                    <Mail className="h-4 w-4" />
-                </Button>
             </div>
         ),
     },
@@ -106,10 +99,23 @@ const columns: ColumnDef<typeof data[0]>[] = [
             </Button>
         ),
         cell: ({ row }) => <div className="text-center font-medium">{row.getValue("total")}</div>,
-    }
+    },
+    {
+        accessorKey: "action",
+        header: "Action",
+        cell: ({ row }) => (
+            <Button
+                variant="outline"
+                size="sm"
+                onClick={() => sendEmail(row.getValue("email"))}
+            >
+                <Mail className="h-4 w-4" />
+            </Button>
+        ),
+    },
 ];
 
-const sendEmail = async (email: any) => {
+const sendEmail = async (email: string) => {
     const response = await fetch("/api/send-email", {
         method: "POST",
         headers: {
