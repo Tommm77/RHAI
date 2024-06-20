@@ -25,7 +25,8 @@ def get_cv_score_and_job(text):
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user",
              "content": f"Analyze the following CV and provide a score out of 100 and determine the most relevant job title: {text}"}
-        ]
+        ],
+        max_tokens=100  # Limitez le nombre de tokens pour éviter les réponses trop longues
     )
 
     # Parse the response
