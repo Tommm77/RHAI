@@ -1,3 +1,5 @@
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -26,6 +28,30 @@ class MotivationViewSet(viewsets.ModelViewSet):
     serializer_class = MotivationSerializer
 
 
+@swagger_auto_schema(
+    method='post',
+    operation_description="Upload a CV in base64 format and get a score and job titles",
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'pdf': openapi.Schema(type=openapi.TYPE_STRING, description='Base64 encoded PDF'),
+        },
+        required=['pdf']
+    ),
+    responses={
+        200: openapi.Response(
+            description="CV score and job titles",
+            examples={
+                "application/json": {
+                    "score": 85.0,
+                    "job_titles": "Software Engineer"
+                }
+            }
+        ),
+        400: "Bad Request",
+        500: "Internal Server Error"
+    }
+)
 @api_view(['POST'])
 def evaluate_cv(request):
     try:
