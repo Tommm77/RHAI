@@ -29,4 +29,9 @@ def get_cv_score_and_job(text):
         max_tokens=100  # Limitez le nombre de tokens pour éviter les réponses trop longues
     )
 
-    return completion
+    # Parse the response
+    result_text = completion['choices'][0]['message']['content'].strip().split('\n')
+    score = float(result_text[0].split(' ')[-1].strip())  # Assurez-vous que le format correspond à la réponse
+    job_titles = result_text[1].split('"')[1].strip()  # Assurez-vous que le format correspond à la réponse
+
+    return score, job_titles

@@ -44,7 +44,8 @@ class EvaluateCV(APIView):
                 description="CV score and job titles",
                 examples={
                     "application/json": {
-                        "task_id": "1234-5678-9012"
+                        "score": 85.0,
+                        "job_titles": "Software Engineer"
                     }
                 }
             ),
@@ -60,6 +61,6 @@ class EvaluateCV(APIView):
             return Response({'error': 'No PDF provided'}, status=status.HTTP_400_BAD_REQUEST)
 
         text = decode_pdf(base64_pdf)
-        completion = get_cv_score_and_job(text)
+        score, job_titles = get_cv_score_and_job(text)
 
-        return Response(completion, status=status.HTTP_200_OK)
+        return Response({'score': score, 'job_titles': job_titles}, status=status.HTTP_200_OK)
