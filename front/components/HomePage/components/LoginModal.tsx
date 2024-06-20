@@ -85,7 +85,7 @@ export function LoginModal() {
           <DialogHeader>
             <DialogTitle>Connexion</DialogTitle>
             <DialogDescription>
-              Veuillez vous connecter pour accéder à l'espace RH
+              Veuillez vous connecter pour accéder à espace RH
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleLogin}>
