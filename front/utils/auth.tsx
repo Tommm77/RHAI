@@ -6,7 +6,7 @@ const useAuth = () => {
 
   useEffect(() => {
     const cookies = cookie.parse(document.cookie || "");
-    setIsAuthenticated(!!cookies.token);
+    setIsAuthenticated(!!cookies.id_p && !!cookies.role);
   }, []);
 
   return isAuthenticated;

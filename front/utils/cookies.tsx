@@ -10,10 +10,10 @@ interface CookieOptions {
 }
 
 export function setCookie(
-  res: NextApiResponse, 
-  name: string, 
-  value: string | object, 
-  options: CookieOptions = {}
+    res: NextApiResponse,
+    name: string,
+    value: string | object,
+    options: CookieOptions = {}
 ) {
   const stringValue = typeof value === "object" ? "j:" + JSON.stringify(value) : String(value);
   const optionsWithDefaults: CookieOptions = {
