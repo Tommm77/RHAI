@@ -1,0 +1,13 @@
+# Exclure les fichiers compilés Python
+*.pyc
+__pycache__/
+
+# Exclure les environnements virtuels
+venv/
+env/
+
+# Exclure les fichiers de configuration locaux
+local_settings.py
+
+# Exclure les répertoires de tests
+tests/

@@ -25,7 +25,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "api",
-    #"IA",
     "rest_framework",
     "corsheaders",
     "drf_yasg",
@@ -136,3 +135,6 @@ CORS_ALLOW_ALL_ORIGINS = True
 #     "https://example.com",
 #     "https://sub.example.com",
 # ]
+
+# OpenAI API
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
