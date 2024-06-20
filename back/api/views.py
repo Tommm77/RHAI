@@ -50,7 +50,8 @@ class MotivationViewSet(viewsets.ModelViewSet):
         ),
         400: "Bad Request",
         500: "Internal Server Error"
-    }
+    },
+    tags=['evaluate_cv']
 )
 @api_view(['POST'])
 def evaluate_cv(request):
