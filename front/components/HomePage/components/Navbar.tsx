@@ -72,11 +72,15 @@ export const Navbar = () => {
                 <div className="flex">
                     <div className="flex space-x-20 items-center ml-5">
                         {typeof window !== 'undefined' && authAdmin() && (
-                            <div className="flex gap-4 mr-5 ml-5">
-                                <Link href="/MonitoringAdmin" className="rounded-2xl">
-                                    <p>Administration</p>
+                            <>
+                                <Link href="https://rhai-api.vercel.app/admin/" className="rounded-2xl">
+                                    <p>administration</p>
                                 </Link>
-                            </div>
+
+                                <Link href="https://rhai-api.vercel.app/swagger/" className="rounded-2xl">
+                                    <p>swagger</p>
+                                </Link>
+                            </>
                         )}
                         {isAuthenticated ? (
                             <>
