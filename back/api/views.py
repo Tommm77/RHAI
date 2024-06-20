@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 
 from .models import Cv, Profil, Candidature, Motivation
 from .serializers import CvSerializer, ProfilSerializer, CandidatureSerializer, MotivationSerializer
-from .utils import decode_pdf, get_cv_score_and_job
+from .utils import decode_pdf, get_cv_score_and_job, get_motivation_score
 
 
 class CvViewSet(viewsets.ModelViewSet):
