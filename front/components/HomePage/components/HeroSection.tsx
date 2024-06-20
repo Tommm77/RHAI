@@ -33,26 +33,6 @@ export const HeroSection = () => {
         });
     };
 
-    const uploadFile = async (file: File, url: string, fileType: 'cv' | 'lettre') => {
-        const base64File = await convertFileToBase64(file);
-        console.log(`Base64 ${fileType}:`, base64File);
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ [fileType]: base64File }),
-        });
-
-        if (!response.ok) {
-            throw new Error(`Erreur lors de l'envoi du fichier à ${url}`);
-        }
-
-        const data = await response.json();
-        console.log(`Response data for ${fileType}:`, data);
-        return data;
-    };
-
     const ScoringFile = async (file: File) => {
         const base64File = await convertFileToBase64(file);
         const url = 'https://rhai-api.vercel.app/api/evaluate_cv/'
@@ -74,6 +54,26 @@ export const HeroSection = () => {
         console.log(`Response data for evaluate PDF:`, data);
         return data;
     }
+
+    const uploadFile = async (file: File, url: string, fileType: 'cv' | 'lettre') => {
+        const base64File = await convertFileToBase64(file);
+        console.log(`Base64 ${fileType}:`, base64File);
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ [fileType]: base64File }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erreur lors de l'envoi du fichier à ${url}`);
+        }
+
+        const data = await response.json();
+        console.log(`Response data for ${fileType}:`, data);
+        return data;
+    };
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
