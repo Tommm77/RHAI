@@ -15,19 +15,12 @@ def decode_pdf(base64_string):
 
 
 def get_cv_score_and_job(text):
-    # Utilisez un modèle pré-entraîné pour l'analyse de texte
-    classifier = pipeline("zero-shot-classification")
+    classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
 
-    # Définir les labels comme des exemples de ce que vous cherchez
     labels = ["data scientist", "software engineer", "project manager", "designer"]
-
-    # Effectuer la classification
     result = classifier(text, candidate_labels=labels)
 
-    # Extraire le poste visé
     job_titles = result['labels'][0]
-
-    # Calculer un score fictif (vous pouvez personnaliser cela)
     score = result['scores'][0] * 100
 
     return score, job_titles
