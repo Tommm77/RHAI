@@ -3,6 +3,7 @@ from PyPDF2 import PdfReader
 from io import BytesIO
 from openai import OpenAI
 from django.conf import settings
+import json
 
 
 def decode_pdf(base64_string):
@@ -24,14 +25,15 @@ def get_cv_score_and_job(text):
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user",
-             "content": f"Analyze the following CV and provide a score out of 100 and determine the most relevant job title: {text}"}
+             "content": f"Analyze the following CV and provide a score out of 100 and the most relevant job title. Respond in JSON format with 'score' and 'job_titles' as keys. Here is the CV: {text}"}
         ],
         max_tokens=100  # Limitez le nombre de tokens pour éviter les réponses trop longues
     )
 
-    # Parse the response
-    result_text = completion.choices[0].message.content.strip().split('\n')
-    score = float(result_text[0].split(' ')[-1].strip())  # Assurez-vous que le format correspond à la réponse
-    job_titles = result_text[1].split('"')[1].strip()  # Assurez-vous que le format correspond à la réponse
+    # Parse the JSON response
+    response_text = completion.choices[0].message.content.strip()
+    response_json = json.loads(response_text)
+    score = response_json.get('score')
+    job_titles = response_json.get('job_titles')
 
     return score, job_titles
