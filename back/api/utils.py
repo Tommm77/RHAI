@@ -1,5 +1,5 @@
 import base64
-from PyPDF2 import PdfFileReader
+from PyPDF2 import PdfReader
 from io import BytesIO
 import openai
 from django.conf import settings
@@ -7,17 +7,18 @@ from django.conf import settings
 
 def decode_pdf(base64_string):
     pdf_bytes = base64.b64decode(base64_string)
-    pdf = PdfFileReader(BytesIO(pdf_bytes))
+    pdf = PdfReader(BytesIO(pdf_bytes))
     text = ""
-    for page_num in range(pdf.numPages):
-        page = pdf.getPage(page_num)
-        text += page.extractText()
+    for page in pdf.pages:
+        text += page.extract_text()
     return text
 
 
 def get_cv_score_and_job(text):
+    # Assurez-vous que la clé API est bien chargée
     openai.api_key = settings.OPENAI_API_KEY
 
+    # Utilisez l'API OpenAI pour évaluer le texte
     response = openai.Completion.create(
         engine="text-davinci-003",
         prompt=f"Analyze the following CV and provide a score out of 100 and determine the most relevant job title: {text}",
