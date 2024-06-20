@@ -6,9 +6,39 @@ import useAuth from "@/utils/auth";
 import { removeCookie } from "@/utils/cookies";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
+import {useEffect, useState} from "react";
+import cookie from "cookie";
 
 export const Navbar = () => {
     const isAuthenticated = useAuth();
+    const [avatarSrc, setAvatarSrc] = useState<string>("");
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            const cookies = cookie.parse(document.cookie || "");
+            const id_p = cookies.id_p;
+
+            if (id_p) {
+                const response = await fetch(`https://rhai-api.vercel.app/api/profils/${id_p}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setAvatarSrc(data.photo_profil || "https://github.com/shadcn.png");
+                } else {
+                    console.error("Erreur lors de la récupération du profil.");
+                }
+            }
+        };
+
+        if (isAuthenticated) {
+            fetchProfile().then(r =>  r);
+        }
+    }, [isAuthenticated]);
 
     const handleLogout = () => {
         removeCookie(null, "id_p");
@@ -32,8 +62,8 @@ export const Navbar = () => {
                                     </Link>
                                 </div>
                                 <div className="flex space-x-2 items-center ml-5">
-                                    <Avatar className="w-10 h-10">
-                                        <AvatarImage src="https://github.com/shadcn.png" />
+                                    <Avatar className="w-6 h-6">
+                                        <AvatarImage src={avatarSrc} />
                                         <AvatarFallback>CN</AvatarFallback>
                                     </Avatar>
                                     <Link href="/Profile" className="rounded-2xl">

@@ -31,6 +31,7 @@ export function LoginModal() {
         },
       });
 
+
       if (response.ok) {
         const profiles = await response.json();
         console.log(profiles);
@@ -59,7 +60,6 @@ export function LoginModal() {
             sameSite: "lax",
             path: "/",
           });
-
           setIsOpen(false);
           window.location.reload();
           console.log("Connexion réussie");
