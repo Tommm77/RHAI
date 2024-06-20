@@ -25,7 +25,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "api",
-    #"IA",
+    "IA",
     "rest_framework",
     "corsheaders",
     "drf_yasg",
