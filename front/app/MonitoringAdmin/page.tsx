@@ -1,9 +1,9 @@
-import {HomePage} from "@/components/HomePage/HomePage";
+import {MonitoringHome} from "@/components/Monitoring/MonitoringHome";
 
 export default function MonitoringAdminPage() {
     return (
         <div className="h-full w-full">
-            <p>salut</p>
+            <MonitoringHome />
         </div>
     );
 }
