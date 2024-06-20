@@ -61,6 +61,6 @@ class EvaluateCV(APIView):
             return Response({'error': 'No PDF provided'}, status=status.HTTP_400_BAD_REQUEST)
 
         text = decode_pdf(base64_pdf)
-        score, job_titles = get_cv_score_and_job(text)
+        response_text = get_cv_score_and_job(text)
 
-        return Response({'score': score, 'job_titles': job_titles}, status=status.HTTP_200_OK)
+        return Response({'response': response_text}, status=status.HTTP_200_OK)
