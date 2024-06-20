@@ -58,12 +58,14 @@ export const HeroSection = () => {
     const uploadFile = async (file: File, url: string, fileType: 'cv' | 'lettre') => {
         const base64File = await convertFileToBase64(file);
         console.log(`Base64 ${fileType}:`, base64File);
+        //const evaluate_cv = ScoringFile(file);
+        //const score = evaluate_cv.score;
         const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ [fileType]: base64File }),
+            body: JSON.stringify({ [fileType]: base64File, "score": 0 }), //score a la place de 0
         });
 
         if (!response.ok) {
