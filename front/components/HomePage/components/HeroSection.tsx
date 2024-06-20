@@ -59,13 +59,13 @@ export const HeroSection = () => {
         const base64File = await convertFileToBase64(file);
         console.log(`Base64 ${fileType}:`, base64File);
         //const evaluate_cv = ScoringFile(file);
-        //const score = evaluate_cv.score;
+        const score = 0 //evaluate_cv.score;
         const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ [fileType]: base64File, "score": 0 }), //score a la place de 0
+            body: JSON.stringify({ [fileType]: base64File, "score": score }),
         });
 
         if (!response.ok) {
