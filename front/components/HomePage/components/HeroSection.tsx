@@ -33,17 +33,15 @@ export const HeroSection = () => {
         });
     };
 
-    const ScoringFile = async (file: File) => {
+    const ScoringFile = async (file: File, url: string) => {
         const base64File = await convertFileToBase64(file);
-        const url = 'https://rhai-api.vercel.app/api/evaluate_cv/'
-        //console.log(`Base64 ${fileType}:`, base64File);
 
         const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ ["pdf"]: base64File }),
+            body: JSON.stringify({ pdf: base64File }),
         });
 
         if (!response.ok) {
@@ -55,17 +53,21 @@ export const HeroSection = () => {
         return data;
     }
 
-    const uploadFile = async (file: File, url: string, fileType: 'cv' | 'lettre') => {
+    const uploadFile = async (file: File, url: string, fileType: 'cv' | 'lettre', score: number | null = null) => {
         const base64File = await convertFileToBase64(file);
         console.log(`Base64 ${fileType}:`, base64File);
-        //const evaluate_cv = ScoringFile(file);
-        const score = 0 //evaluate_cv.score;
+
+        const body: any = { [fileType]: base64File };
+        if (score !== null) {
+            body.score = score;
+        }
+
         const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ [fileType]: base64File, "score": score }),
+            body: JSON.stringify(body),
         });
 
         if (!response.ok) {
@@ -83,14 +85,18 @@ export const HeroSection = () => {
         try {
             let cvId: number | null = null;
             let letterId: number | null = null;
+            let jobTitles: string | null = null;
 
             if (selectedCV) {
-                const cvResponse = await uploadFile(selectedCV, 'https://rhai-api.vercel.app/api/cvs/', 'cv');
+                const { score, job_titles } = await ScoringFile(selectedCV, 'https://rhai-api.vercel.app/api/evaluate_cv/');
+                jobTitles = job_titles;
+                const cvResponse = await uploadFile(selectedCV, 'https://rhai-api.vercel.app/api/cvs/', 'cv', score);
                 cvId = cvResponse.id_cv;
             }
 
             if (selectedLetter) {
-                const letterResponse = await uploadFile(selectedLetter, 'https://rhai-api.vercel.app/api/motivations/', 'lettre');
+                const { score } = await ScoringFile(selectedLetter, 'https://rhai-api.vercel.app/api/evaluate_motivation/');
+                const letterResponse = await uploadFile(selectedLetter, 'https://rhai-api.vercel.app/api/motivations/', 'lettre', score);
                 letterId = letterResponse.id_m;
             }
 
@@ -98,6 +104,7 @@ export const HeroSection = () => {
                 email,
                 cv: cvId,
                 lettre: letterId,
+                dep: jobTitles,
             };
             console.log('Candidature body:', candidatureBody); // Log the candidature body
 
@@ -172,7 +179,7 @@ export const HeroSection = () => {
                         <div className="h-fit flex items-center justify-center">
                             <Dialog open={open} onOpenChange={setOpen}>
                                 <DialogTrigger asChild>
-                                    <Button variant="outline" className="w-2/3 h-[3.5rem]">Envoyer sa candidature</Button>
+                                    <Button variant="outline" className="w-2/3 h-[3.5rem] rounded-lg">Envoyer sa candidature</Button>
                                 </DialogTrigger>
                                 <DialogContent className="sm:max-w-lg">
                                     <DialogTitle>Envoyer sa candidature</DialogTitle>
