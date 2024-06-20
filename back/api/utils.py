@@ -1,7 +1,7 @@
 import base64
 from PyPDF2 import PdfReader
 from io import BytesIO
-import openai
+from openai import OpenAI
 from django.conf import settings
 
 
@@ -16,10 +16,10 @@ def decode_pdf(base64_string):
 
 def get_cv_score_and_job(text):
     # Assurez-vous que la clé API est bien chargée
-    openai.api_key = settings.OPENAI_API_KEY
+    client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
     # Utilisez la nouvelle API OpenAI pour évaluer le texte
-    response = openai.ChatCompletion.create(
+    completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
@@ -29,7 +29,7 @@ def get_cv_score_and_job(text):
     )
 
     # Parse the response
-    result_text = response['choices'][0]['message']['content'].strip().split('\n')
+    result_text = completion.choices[0].message['content'].strip().split('\n')
     score = float(result_text[0].split(':')[1].strip())
     job_titles = result_text[1].split(':')[1].strip()
 
