@@ -21,12 +21,27 @@ export const HeroSection = () => {
         setFile(file || null);
     };
 
-    const uploadFile = async (file: File, url: string) => {
-        const formData = new FormData();
-        formData.append('file', file);
+    const convertFileToBase64 = (file: File): Promise<string> => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                const base64String = (reader.result as string).split(',')[1];
+                resolve(base64String);
+            };
+            reader.onerror = error => reject(error);
+        });
+    };
+
+    const uploadFile = async (file: File, url: string, fileType: 'cv' | 'lettre') => {
+        const base64File = await convertFileToBase64(file);
+        console.log(`Base64 ${fileType}:`, base64File);
         const response = await fetch(url, {
             method: 'POST',
-            body: formData,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ [fileType]: base64File }),
         });
 
         if (!response.ok) {
@@ -34,7 +49,8 @@ export const HeroSection = () => {
         }
 
         const data = await response.json();
-        return data.id;  // Assuming the API returns an object with the ID of the uploaded file
+        console.log(`Response data for ${fileType}:`, data);
+        return data;
     };
 
     const handleSubmit = async (event: FormEvent) => {
@@ -45,23 +61,28 @@ export const HeroSection = () => {
             let letterId: number | null = null;
 
             if (selectedCV) {
-                cvId = await uploadFile(selectedCV, 'https://rhai-api.vercel.app/api/cvs/');
+                const cvResponse = await uploadFile(selectedCV, 'https://rhai-api.vercel.app/api/cvs/', 'cv');
+                cvId = cvResponse.id_cv;
             }
 
             if (selectedLetter) {
-                letterId = await uploadFile(selectedLetter, 'https://rhai-api.vercel.app/api/motivations/');
+                const letterResponse = await uploadFile(selectedLetter, 'https://rhai-api.vercel.app/api/motivations/', 'lettre');
+                letterId = letterResponse.id_m;
             }
+
+            const candidatureBody = {
+                email,
+                cv: cvId,
+                lettre: letterId,
+            };
+            console.log('Candidature body:', candidatureBody); // Log the candidature body
 
             const candidatureResponse = await fetch('https://rhai-api.vercel.app/api/candidatures/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    email,
-                    cv: cvId,
-                    lettre: letterId,
-                }),
+                body: JSON.stringify(candidatureBody),
             });
 
             if (candidatureResponse.ok) {
