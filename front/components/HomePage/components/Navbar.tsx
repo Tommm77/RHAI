@@ -73,11 +73,11 @@ export const Navbar = () => {
                     <div className="flex space-x-20 items-center ml-5">
                         {typeof window !== 'undefined' && authAdmin() && (
                             <>
-                                <Link href="https://rhai-api.vercel.app/admin/" className="rounded-2xl">
+                                <Link href="https://rhai-api.vercel.app/admin/" className="rounded-2xl hover:bg-gray-800 hover:text-gray-300 p-3">
                                     <p>administration</p>
                                 </Link>
 
-                                <Link href="https://rhai-api.vercel.app/swagger/" className="rounded-2xl">
+                                <Link href="https://rhai-api.vercel.app/swagger/" className="rounded-2xl hover:bg-gray-800 hover:text-gray-300 p-3">
                                     <p>swagger</p>
                                 </Link>
                             </>
@@ -85,11 +85,11 @@ export const Navbar = () => {
                         {isAuthenticated ? (
                             <>
                                 <div className="flex space-x-2 items-center ml-5">
-                                    <Link href="/RH" className="rounded-2xl">
+                                    <Link href="/RH" className="rounded-2xl hover:bg-gray-800 hover:text-gray-300 p-3">
                                         <p>Espace RH</p>
                                     </Link>
                                 </div>
-                                <div className="flex space-x-2 items-center ml-5">
+                                <div className="flex space-x-3 items-center ml-5 hover:bg-gray-800 hover:text-gray-300 p-3 rounded-2xl">
                                     <Avatar className="w-6 h-6">
                                         <AvatarImage src={avatarSrc} />
                                         <AvatarFallback>CN</AvatarFallback>
