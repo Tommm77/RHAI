@@ -1,7 +1,8 @@
 import base64
 from PyPDF2 import PdfFileReader
 from io import BytesIO
-from transformers import pipeline
+import openai
+from django.conf import settings
 
 
 def decode_pdf(base64_string):
@@ -15,12 +16,17 @@ def decode_pdf(base64_string):
 
 
 def get_cv_score_and_job(text):
-    classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
+    openai.api_key = settings.OPENAI_API_KEY
 
-    labels = ["data scientist", "software engineer", "project manager", "designer"]
-    result = classifier(text, candidate_labels=labels)
+    response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=f"Analyze the following CV and provide a score out of 100 and determine the most relevant job title: {text}",
+        max_tokens=200
+    )
 
-    job_titles = result['labels'][0]
-    score = result['scores'][0] * 100
+    # Parse the response
+    result_text = response.choices[0].text.strip().split('\n')
+    score = float(result_text[0].split(':')[1].strip())
+    job_titles = result_text[1].split(':')[1].strip()
 
     return score, job_titles
