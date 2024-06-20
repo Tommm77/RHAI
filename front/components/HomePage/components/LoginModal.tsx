@@ -36,7 +36,7 @@ export function LoginModal() {
         console.log(profiles);
 
         profiles.forEach((profile: any) => {
-            console.log(profile.email, profile.mdp);
+          console.log(profile.email, profile.mdp);
         });
 
         // Find a matching profile
@@ -59,6 +59,7 @@ export function LoginModal() {
             sameSite: "lax",
             path: "/",
           });
+
           setIsOpen(false);
           window.location.reload();
           console.log("Connexion réussie");
