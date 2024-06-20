@@ -24,6 +24,7 @@ router.register(r'profils', ProfilViewSet)
 router.register(r'cvs', CvViewSet)
 router.register(r'candidatures', CandidatureViewSet)
 router.register(r'motivations', MotivationViewSet)
+router.register(r'evaluate_cv', evaluate_cv)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
