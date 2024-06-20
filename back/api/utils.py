@@ -30,7 +30,7 @@ def get_cv_score_and_job(text):
     )
 
     # Parse the response
-    result_text = completion['choices'][0]['message']['content'].strip().split('\n')
+    result_text = completion.choices[0].message.content.strip().split('\n')
     score = float(result_text[0].split(' ')[-1].strip())  # Assurez-vous que le format correspond à la réponse
     job_titles = result_text[1].split('"')[1].strip()  # Assurez-vous que le format correspond à la réponse
 
